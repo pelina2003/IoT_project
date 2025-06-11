@@ -7,7 +7,7 @@ The directory should contain subdirectories each one having the name of the
 corresponding class.
 
 For instance:
-
+ 
 ```
 .
 └── data/
