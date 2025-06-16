@@ -1,0 +1,21 @@
+#--------------------- DB ----------------------
+# DB Connection with the uri (host)
+client: "mongodb://localhost:27017/"
+
+# db name
+db: "aiot_course"
+
+# db collection
+col: "gesture_data"
+
+
+#--------------------- Dataframe Instantiation ----------------------
+# Dataframe columns list
+order: ["x-axis (deg/s)", "y-axis (deg/s)", "z-axis (deg/s)"]
+rename: ["gyr_x", "gyr_y", "gyr_z"]
+
+
+
+#--------------------- Dataset Local Storage ----------------------
+# dataset location
+data_path: "data"
