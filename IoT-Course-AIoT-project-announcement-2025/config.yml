@@ -19,3 +19,46 @@ rename: ["gyr_x", "gyr_y", "gyr_z"]
 #--------------------- Dataset Local Storage ----------------------
 # dataset location
 data_path: "data"
+single_instance_path: "data/class_A/data_A_01.csv"  # ή κάποιο αρχείο για δοκιμή EDA
+
+#--------------------- Data Engineering ----------------------
+sliding_window:
+  ws: 200             # window size σε samples = 2 sec × 100Hz
+  overlap: 100        # 50% overlap = 1 sec × 100Hz
+  w_type: "hann"      # προτεινόμενο παραθυρωτικό φίλτρο
+  w_center: True      # κεντράρισμα παραθύρου (π.χ. για FFT ή signal alignment)
+  print_stats: True   # χρήσιμο debug output
+
+x_number: 2            # index παραθύρου που θα χρησιμοποιείς για οπτικοποίηση
+
+filter:
+  order: 4            # order του φίλτρου Butterworth (τυπικό: 4 ή 6)
+  wn: 0.2             # normalized cutoff frequency: 10Hz / (100Hz/2) = 0.2
+  type: "lowpass"     # ζητείται lowpass φίλτρο
+
+#--------------------- Data Preparation ----------------------
+# Dimensionality reduction
+PCA:
+  n_comp: 2        # Δύο κύριες συνιστώσες για visualization και feature reduction
+
+#--------------------- Learning ----------------------
+# Classifier - Statistical (SVM)
+classifier:
+  SVC:
+    C: 1           # Regularization parameter
+    kernel: "rbf"  # Radial basis function
+    gamma: "scale" # Αυτόματο σχήμα gamma (1 / (n_features * X.var()))
+
+# Parameter Grid for Fine-tuning (GridSearchCV)
+fine_tune:
+  param_grid:
+    - {C: [1, 10, 100, 1000], kernel: ['linear']}
+    - {C: [1, 10, 100, 1000], gamma: [0.001, 0.0001], kernel: ['rbf']}
+  cv: 5
+  verbose: 1
+
+# Classifier - Neural Network (TensorFlow / Keras)
+fit:
+  epochs: 20      # Αριθμός περασμάτων στο train set
+  batch: 32       # Μέγεθος batch
+  verbose: 1      # 0 = silent, 1 = progress bar, 2 = one line per epoch
